@@ -41,8 +41,12 @@ public class CensusAnalyser {
         try ( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            List<IndiaStateCodeCSV> stateCSVList = csvBuilder.getCSVFileList(reader,IndiaStateCodeCSV.class );
-            return stateCSVList.size();
+            Iterator<IndiaStateCodeCSV> csvFileIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCodeCSV.class);
+            Iterable<IndiaStateCodeCSV> csvIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvIterable.spliterator(),false)
+                    .filter(csvState -> censusStateMap.get(csvState.state) != null)
+                    .forEach(csvState -> censusStateMap.get(csvState.state).stateCode = csvState.stateCode);
+            return this.censusStateMap.size();
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
