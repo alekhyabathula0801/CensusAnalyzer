@@ -56,23 +56,32 @@ public class CensusAnalyser {
             throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
         Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.state);
-        this.sort(censusComparator);
+        this.sortData(censusComparator);
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
 
     public String getSortedCensusDataAccordingToPopulation() throws CensusAnalyserException {
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.population);
+        return this.getReversedSortJsonFile(censusComparator);
+    }
+
+    public String getSortedCensusDataAccordingToPopulationDensity() throws CensusAnalyserException {
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        return this.getReversedSortJsonFile(censusComparator);
+    }
+
+    public String getReversedSortJsonFile(Comparator censusComparator) throws CensusAnalyserException {
         if(censusList == null || censusList.size() ==0 ) {
             throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.population);
-        this.sort(censusComparator);
+        this.sortData(censusComparator);
         Collections.reverse(censusList);
-        String sortedByPopulationCensusJson = new Gson().toJson(censusList);
-        return sortedByPopulationCensusJson;
+        String sortedCensusJsonFile = new Gson().toJson(censusList);
+        return sortedCensusJsonFile;
     }
 
-    private void sort(Comparator<IndiaCensusDAO> censusComparator) {
+    private void sortData(Comparator<IndiaCensusDAO> censusComparator) {
         for(int i=0; i<censusList.size()-1 ; i++) {
             for(int j=0; j<censusList.size()-i-1; j++) {
                 IndiaCensusDAO census1 = censusList.get(j);
