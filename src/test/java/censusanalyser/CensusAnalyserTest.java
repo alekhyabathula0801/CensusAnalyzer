@@ -182,4 +182,26 @@ public class CensusAnalyserTest {
         } catch (CensusAnalyserException e) {}
     }
 
+    @Test
+    public void givenIndiaCensusData_whenSortedByArea_shouldReturnStateNameWithLargeArea() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getSortedCensusDataAccordingToArea();
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Rajasthan", censusCSV[0].state);
+        } catch (CensusAnalyserException e) {}
+    }
+
+    @Test
+    public void givenIndiaCensusData_whenSortedByArea_shouldReturnStateNameWithSmallArea() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getSortedCensusDataAccordingToArea();
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Goa", censusCSV[28].state);
+        } catch (CensusAnalyserException e) {}
+    }
+
 }

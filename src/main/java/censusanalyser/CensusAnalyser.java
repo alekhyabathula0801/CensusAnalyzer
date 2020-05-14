@@ -63,15 +63,20 @@ public class CensusAnalyser {
 
     public String getSortedCensusDataAccordingToPopulation() throws CensusAnalyserException {
         Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.population);
-        return this.getReversedSortJsonFile(censusComparator);
+        return this.getReverseSortedJsonFile(censusComparator);
     }
 
     public String getSortedCensusDataAccordingToPopulationDensity() throws CensusAnalyserException {
         Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.densityPerSqKm);
-        return this.getReversedSortJsonFile(censusComparator);
+        return this.getReverseSortedJsonFile(censusComparator);
     }
 
-    public String getReversedSortJsonFile(Comparator censusComparator) throws CensusAnalyserException {
+    public String getSortedCensusDataAccordingToArea() throws CensusAnalyserException {
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.areaInSqKm);
+        return this.getReverseSortedJsonFile(censusComparator);
+    }
+
+    public String getReverseSortedJsonFile(Comparator censusComparator) throws CensusAnalyserException {
         if(censusList == null || censusList.size() ==0 ) {
             throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
