@@ -20,8 +20,12 @@ public class CensusAnalyser {
         return censusStateMap.size();
     }
 
-    public String getStateWiseSortedCensusData(Country country) throws CensusAnalyserException {
+    public String getSortedCensusDataAccordingToStateName(Country country) throws CensusAnalyserException {
         Comparator<CensusDAO> censusComparator = Comparator.comparing(census -> census.state);
+        return this.getSortedCensusData(censusComparator,country);
+    }
+    public String getSortedCensusDataAccordingToStateCode(Country country) throws CensusAnalyserException {
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(census -> census.stateCode);
         return this.getSortedCensusData(censusComparator,country);
     }
 
