@@ -20,10 +20,10 @@ public class IndiaCensusCSV {
     }
 
     public IndiaCensusCSV(String state, int population, int densityPerSqKm, int areaInSqKm) {
-        this.state = state;
-        this.population = population;
-        this.areaInSqKm = areaInSqKm;
-        this.densityPerSqKm = densityPerSqKm;
+        this.population=population;
+        this.densityPerSqKm=densityPerSqKm;
+        this.state=state;
+        this.areaInSqKm=areaInSqKm;
     }
 
     @Override
@@ -35,4 +35,5 @@ public class IndiaCensusCSV {
                 ", DensityPerSqKm='" + densityPerSqKm + '\'' +
                 '}';
     }
+
 }
